@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/sample?prepareThreshold=0
+    username: sample
+    password: sample
+  kafka:
+    bootstrap-servers: localhost:9093
+    properties:
+      #  The list of protocols enabled for SSL connections.
+      ssl.enabled.protocols: TLSv1.2, TLSv1.3
+      # The endpoint identification algorithm used by clients to validate server host name. The default value is https. Clients including client connections created by the broker for inter-broker communication verify that the broker host name matches the host name in the broker’s certificate. Disable server host name verification by setting ssl.endpoint.identification.algorithm to an empty string.
+      ssl.endpoint.identification.algorithm:
+      # Security protocol. Valid values: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
+      security.protocol: SSL
+    ssl:
+      trust-store-location: file:/Users/sample/your-path/truststore.jks
+      trust-store-password: sample
+      key-store-location: file:/Users/sample/your-path/keystore.jks
+      key-store-password: sample
+      key-password: sample
+  cloud:
+    stream:
+      binders:
+        binderName:
+          type: kafka
+      bindings:
+        # Note: All topics will be auto created! See property spring.cloud.stream.kafka.binder.autoCreateTopics
+        # Input topic
+        creditRatingSubscribe:
+          destination: credit_rating
+          group: SAMPLE
+        # Output topic
+        creditWorthyPublish:
+          destination: credit_worthy
